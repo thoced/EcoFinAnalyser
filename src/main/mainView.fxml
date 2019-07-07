@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
+   <top>
+      <VBox prefHeight="35.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem fx:id="menuItemNewDossier" mnemonicParsing="false" onAction="#OnClicMenuItemNewDossier" text="Nouveau dossier" />
+                        <MenuItem fx:id="menuItemLoadDossier" mnemonicParsing="false" onAction="#OnClicMenuItemLoadDossier" text="Charger un dossier" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem fx:id="menuItemImportFile" mnemonicParsing="false" onAction="#OnClicMenuItemImportFile" text="Importer un fichier" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <AnchorPane prefHeight="32.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="8.0" text="Dossier sélectionné:" />
+            <Label fx:id="labelCurrentDossier" layoutX="126.0" layoutY="8.0" prefHeight="17.0" prefWidth="460.0" />
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>
