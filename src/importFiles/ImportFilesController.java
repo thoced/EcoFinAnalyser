@@ -2,34 +2,26 @@ package importFiles;
 
 
 
-import com.sun.jndi.toolkit.url.UrlUtil;
-import com.sun.org.apache.bcel.internal.util.ClassLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import main.Main;
 import sample.HelperAlert;
 import sample.HelperLoadParser;
-import sample.HelperStage;
+import transaction.TransactionModel;
 
 import java.io.*;
 
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
-import java.net.URLClassLoader;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ImportFilesController  implements Initializable{
@@ -73,7 +65,7 @@ public class ImportFilesController  implements Initializable{
             // reception du JAR parserContext
             String[] list = HelperLoadParser.getInstance().getListParser();
 
-
+            List<TransactionModel> ret = HelperLoadParser.getInstance().InvokeMethod(list[0], "parse");
 
         }
         else

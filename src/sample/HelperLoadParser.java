@@ -1,10 +1,13 @@
 package sample;
 
+import transaction.TransactionModel;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.List;
 
 public class HelperLoadParser {
     private static HelperLoadParser ourInstance = new HelperLoadParser();
@@ -13,31 +16,60 @@ public class HelperLoadParser {
         return ourInstance;
     }
 
+    private java.lang.ClassLoader cl;
+
     private HelperLoadParser() {
-
-    }
-
-
-
-    public String[] getListParser() {
         String userDir = System.getProperty("user.dir");
         String pathJar = userDir + "\\parser.jar";
-        Object parserContext = null;
-        String[] list = null;
+
         try {
             File fileJar = new File(pathJar);
             URL url = fileJar.toURI().toURL();
             URL[] urls = new URL[]{url};
-            java.lang.ClassLoader cl = new URLClassLoader(urls);
+            cl = new URLClassLoader(urls);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<TransactionModel> InvokeMethod(String classParser, String method){
+        Object parser = null;
+        List<TransactionModel> list = null;
+        try {
+            Class cls = cl.loadClass("parserOrganisme." + classParser);
+            parser = cls.newInstance();
+            list = (List<TransactionModel>) parser.getClass().getDeclaredMethod(method,null).invoke(parser,null);
+
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        finally {
+            return list;
+        }
+    }
+
+
+    public String[] getListParser() {
+
+        String[] list = null;
+        Object parserContext = null;
+        try {
             Class cls = cl.loadClass("parserOrganisme.ParserContext");
             parserContext = cls.newInstance();
             // reception de la liste des class parser de la librairie JAR
             java.lang.reflect.Method method = parserContext.getClass().getDeclaredMethod("getList",null);
             list = (String[]) method.invoke(parserContext,null);
 
-
-        } catch (MalformedURLException e) {
-            HelperAlert.getInstance().showError("Mal" + e.getMessage());
         } catch (ClassNotFoundException e) {
             HelperAlert.getInstance().showError("Class Not" + e.getMessage());
         } catch (IllegalAccessException e) {
