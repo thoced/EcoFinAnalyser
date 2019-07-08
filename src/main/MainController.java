@@ -65,28 +65,13 @@ public class MainController implements Initializable{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../loadDossier/LoadDossierView.fxml"));
             Parent parent = loader.load();
             Stage stage = new Stage();
-            stage.setScene(new Scene(parent,320,480));
+            stage.setScene(new Scene(parent, 320, 480));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Charger un dossier");
-            LoadDossierController controller = loader.getController();
-            DossierModel model = new DossierModel();
-            List<DossierModel> list = model.Select();
-
-            if(list != null){
-                ObservableList<DossierModel> observableList = FXCollections.observableArrayList(list);
-                controller.getTableView().setItems(observableList);
-            }
-
             stage.showAndWait();
-
-            } catch (IOException e) {
-            HelperAlert.getInstance().showError(e.getMessage());
-            } catch (SQLException e) {
-            HelperAlert.getInstance().showError(e.getMessage());
-            } catch (ToLongStringException e) {
-            HelperAlert.getInstance().showError(e.getMessage());
-            }
-
+        } catch (IOException e) {
+            HelperAlert.getInstance().showError(e.getLocalizedMessage());
+        }
     }
 
     @FXML
@@ -99,19 +84,10 @@ public class MainController implements Initializable{
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Import des fichiers organisme");
             ImportFilesController controller = loader.getController();
-            // selection de la liste des organismes
-            OrganismeModel organismeModel = new OrganismeModel();
-            List<OrganismeModel> list = organismeModel.Select();
-            // appel de la vue avec la liste
-            controller.getTableViewOrganisme().setItems(FXCollections.observableArrayList(list));
             stage.showAndWait();
 
         }
         catch(IOException e){
-            HelperAlert.getInstance().showError(e.getMessage());
-        } catch (SQLException e) {
-            HelperAlert.getInstance().showError(e.getMessage());
-        } catch (ToLongStringException e) {
             HelperAlert.getInstance().showError(e.getMessage());
         }
     }

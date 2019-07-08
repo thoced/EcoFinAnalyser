@@ -2,6 +2,7 @@ package importFiles;
 
 
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import newDossier.ToLongStringException;
 import sample.HelperAlert;
 import sample.HelperLoadParser;
 import transaction.TransactionModel;
@@ -21,6 +23,8 @@ import java.io.*;
 import java.net.URL;
 
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -106,5 +110,26 @@ public class ImportFilesController  implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         tableColumNameOrganisme.setCellValueFactory(new PropertyValueFactory<OrganismeModel,String>("name"));
         tableColumComment.setCellValueFactory(new PropertyValueFactory<OrganismeModel,String>("comment"));
+
+
+            // selection de la liste des organismes
+          String[] listParser = HelperLoadParser.getInstance().getListParser();
+          List<OrganismeModel> listOrganisme = new ArrayList<>();
+          for(String parser : listParser){
+
+              // pour chaque parser trouvé, on appel la methode getNameOrganisme
+              String nameOrganisme = HelperLoadParser.getInstance().getNameOrganisme(parser);
+              String nameOrganismeComment = HelperLoadParser.getInstance().getNameOrganismeComment(parser);
+
+              OrganismeModel organismeModel = new OrganismeModel();
+              organismeModel.setName(nameOrganisme);
+              organismeModel.setComment(nameOrganismeComment);
+              listOrganisme.add(organismeModel);
+          }
+
+
+            // appel de la vue avec la liste
+            this.getTableViewOrganisme().setItems(FXCollections.observableArrayList(listOrganisme));
+
     }
 }

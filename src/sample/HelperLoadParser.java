@@ -58,6 +58,55 @@ public class HelperLoadParser {
         }
     }
 
+    public String getNameOrganismeComment(String nameParser){
+        Object parser = null;
+        String ret = null;
+        try {
+            Class cls = cl.loadClass("parserOrganisme." + nameParser);
+            parser = cls.newInstance();
+            // reception de la liste des class parser de la librairie JAR
+            java.lang.reflect.Method method = parser.getClass().getDeclaredMethod("getNameOrganismeComment", null);
+            ret = (String) method.invoke(parser, null);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        finally {
+            return ret;
+        }
+    }
+
+    public String getNameOrganisme(String nameParser){
+        Object parser = null;
+        String ret = null;
+        try {
+            Class cls = cl.loadClass("parserOrganisme." + nameParser);
+            parser = cls.newInstance();
+            // reception de la liste des class parser de la librairie JAR
+            java.lang.reflect.Method method = parser.getClass().getDeclaredMethod("getNameOrganisme", null);
+            ret = (String) method.invoke(parser, null);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        finally {
+            return ret;
+        }
+    }
 
     public String[] getListParser() {
 
