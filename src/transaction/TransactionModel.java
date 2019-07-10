@@ -1,16 +1,19 @@
 package transaction;
 
-import javafx.beans.property.*;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.time.LocalDateTime;
 
 public class TransactionModel {
 
-    private StringProperty compteFrom = new SimpleStringProperty();
+    private StringProperty compte = new SimpleStringProperty();
 
-    private StringProperty compteTo = new SimpleStringProperty();
+    private StringProperty compteContrepartie = new SimpleStringProperty();
 
-    private ObjectProperty<LocalDateTime> datetime = new SimpleObjectProperty<LocalDateTime>();
+    private LocalDateTime localDateTime = LocalDateTime.now();
 
     private LongProperty amount = new SimpleLongProperty();
 
@@ -18,40 +21,37 @@ public class TransactionModel {
 
     private StringProperty comment = new SimpleStringProperty();
 
-    public String getCompteFrom() {
-        return compteFrom.get();
+    public String getCompte() {
+        return compte.get();
+
     }
 
-    public StringProperty compteFromProperty() {
-        return compteFrom;
+    public StringProperty compteProperty() {
+        return compte;
     }
 
-    public void setCompteFrom(String compteFrom) {
-        this.compteFrom.set(compteFrom);
+    public void setCompte(String compte) {
+        this.compte.set(compte);
     }
 
-    public String getCompteTo() {
-        return compteTo.get();
+    public String getCompteContrepartie() {
+        return compteContrepartie.get();
     }
 
-    public StringProperty compteToProperty() {
-        return compteTo;
+    public StringProperty compteContrepartieProperty() {
+        return compteContrepartie;
     }
 
-    public void setCompteTo(String compteTo) {
-        this.compteTo.set(compteTo);
+    public void setCompteContrepartie(String compteContrepartie) {
+        this.compteContrepartie.set(compteContrepartie);
     }
 
-    public LocalDateTime getDatetime() {
-        return datetime.get();
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
     }
 
-    public ObjectProperty<LocalDateTime> datetimeProperty() {
-        return datetime;
-    }
-
-    public void setDatetime(LocalDateTime datetime) {
-        this.datetime.set(datetime);
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
     }
 
     public long getAmount() {

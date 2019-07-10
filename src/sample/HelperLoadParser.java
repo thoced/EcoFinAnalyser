@@ -32,31 +32,29 @@ public class HelperLoadParser {
         }
     }
 
-    public List<TransactionModel> InvokeMethod(String classParser, String method){
+    public List<TransactionModel> parse(String nameParser, File file) {
         Object parser = null;
         List<TransactionModel> list = null;
         try {
-            Class cls = cl.loadClass("parserOrganisme." + classParser);
+            Class cls = cl.loadClass("parserOrganisme." + nameParser);
             parser = cls.newInstance();
-            list = (List<TransactionModel>) parser.getClass().getDeclaredMethod(method,null).invoke(parser,null);
+            list = (List<TransactionModel>) parser.getClass().getDeclaredMethod("parse", File.class).invoke(parser, file);
 
-
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
         finally {
             return list;
         }
-    }
+   }
 
     public String getNameOrganismeComment(String nameParser){
         Object parser = null;

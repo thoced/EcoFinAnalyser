@@ -22,6 +22,8 @@ public class OrganismeModel {
 
     private StringProperty comment = new SimpleStringProperty();
 
+    private StringProperty nameParser = new SimpleStringProperty();
+
 
     private static OrganismeModel organismeModelSelected;
 
@@ -69,5 +71,17 @@ public class OrganismeModel {
 
     public void setComment(String comment) {
         this.comment.set(comment);
+    }
+
+    public String getNameParser() {
+        return nameParser.get();
+    }
+
+    public StringProperty nameParserProperty() {
+        return nameParser;
+    }
+
+    public void setNameParser(String nameParser) {
+        this.nameParser.set(nameParser);
     }
 }

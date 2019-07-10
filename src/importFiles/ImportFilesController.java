@@ -13,7 +13,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
-import newDossier.ToLongStringException;
 import sample.HelperAlert;
 import sample.HelperLoadParser;
 import transaction.TransactionModel;
@@ -23,7 +22,6 @@ import java.io.*;
 import java.net.URL;
 
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -66,10 +64,14 @@ public class ImportFilesController  implements Initializable{
         if(file != null) {
             // LECTURE DU FICHIER
             OrganismeModel currentModel = OrganismeModel.getOrganismeModelSelected();
-            // reception du JAR parserContext
-            String[] list = HelperLoadParser.getInstance().getListParser();
-
-            List<TransactionModel> ret = HelperLoadParser.getInstance().InvokeMethod(list[0], "parse");
+            // Appel de la méthode parse du parser JAR
+            List<TransactionModel> listTransaction  = HelperLoadParser.getInstance().parse(currentModel.getNameParser(),file);
+            if(listTransaction != null){
+                for(TransactionModel transactionModel : listTransaction){
+                    System.out.println(transactionModel.getCompte());
+                    System.out.println(transactionModel.getLocalDateTime().toString());
+                }
+            }
 
         }
         else
@@ -122,6 +124,7 @@ public class ImportFilesController  implements Initializable{
               String nameOrganismeComment = HelperLoadParser.getInstance().getNameOrganismeComment(parser);
 
               OrganismeModel organismeModel = new OrganismeModel();
+              organismeModel.setNameParser(parser); // ajout du nom du parser JAR
               organismeModel.setName(nameOrganisme);
               organismeModel.setComment(nameOrganismeComment);
               listOrganisme.add(organismeModel);
