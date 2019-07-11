@@ -28,6 +28,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
+                        <MenuItem fx:id="menuItemScript" mnemonicParsing="false" onAction="#OnClicMenuItemScript" text="Script" />
                     <MenuItem mnemonicParsing="false" text="About" />
                   </items>
                 </Menu>

@@ -1,13 +1,12 @@
 package transaction;
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 import java.time.LocalDateTime;
 
 public class TransactionModel {
+
+    public static enum TYPE_TRANSACTION {FRAIS,VIREMENT,ACHAT,RETRAIT,DEPOT,AUTRE,NONE};
 
     private StringProperty compte = new SimpleStringProperty();
 
@@ -15,16 +14,13 @@ public class TransactionModel {
 
     private LocalDateTime localDateTime = LocalDateTime.now();
 
-    private LongProperty amount = new SimpleLongProperty();
+    private DoubleProperty amount = new SimpleDoubleProperty();
 
-    private StringProperty type = new SimpleStringProperty();
+    private ObjectProperty<TYPE_TRANSACTION> type = new SimpleObjectProperty<TYPE_TRANSACTION>();
 
     private StringProperty comment = new SimpleStringProperty();
 
-    public String getCompte() {
-        return compte.get();
-
-    }
+    public String getCompte() {return compte.get();  }
 
     public StringProperty compteProperty() {
         return compte;
@@ -54,29 +50,21 @@ public class TransactionModel {
         this.localDateTime = localDateTime;
     }
 
-    public long getAmount() {
-        return amount.get();
-    }
+    public double getAmount() {return amount.get(); }
 
-    public LongProperty amountProperty() {
-        return amount;
-    }
+    public DoubleProperty amountProperty() { return amount; }
+
+    public void setAmount(double amount) { this.amount.set(amount); }
 
     public void setAmount(long amount) {
         this.amount.set(amount);
     }
 
-    public String getType() {
-        return type.get();
-    }
+    public TYPE_TRANSACTION getType() { return type.get(); }
 
-    public StringProperty typeProperty() {
-        return type;
-    }
+    public ObjectProperty<TYPE_TRANSACTION> typeProperty() { return type; }
 
-    public void setType(String type) {
-        this.type.set(type);
-    }
+    public void setType(TYPE_TRANSACTION type) { this.type.set(type); }
 
     public String getComment() {
         return comment.get();
