@@ -77,4 +77,16 @@ public class TransactionModel {
     public void setComment(String comment) {
         this.comment.set(comment);
     }
+
+    @Override
+    public String toString() {
+        return "TransactionModel{" +
+                "compte=" + compte +
+                ", compteContrepartie=" + compteContrepartie +
+                ", localDateTime=" + localDateTime +
+                ", amount=" + amount +
+                ", type=" + type +
+                ", comment=" + comment +
+                '}';
+    }
 }

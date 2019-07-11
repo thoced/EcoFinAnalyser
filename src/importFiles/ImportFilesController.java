@@ -15,8 +15,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import sample.HelperAlert;
 import sample.HelperLoadParser;
+import sample.HelperScript;
+import sample.ScriptModel;
 import transaction.TransactionModel;
 
+import javax.script.ScriptException;
 import java.io.*;
 
 import java.net.URL;
@@ -41,10 +44,10 @@ public class ImportFilesController  implements Initializable{
     private TableView tableViewOrganisme;
 
     @FXML
-    private TableColumn<OrganismeModel,String> tableColumNameOrganisme;
+    private TableColumn<ScriptModel,String> tableColumNameOrganisme;
 
     @FXML
-    private TableColumn<OrganismeModel,String> tableColumComment;
+    private TableColumn<ScriptModel,String> tableColumComment;
 
     private Node backnode;
     private File BaseUtilities;
@@ -57,34 +60,30 @@ public class ImportFilesController  implements Initializable{
             return;
         }
         // on spécifie un organisme
-        OrganismeModel.setOrganismeModelSelected((OrganismeModel) tableViewOrganisme.getSelectionModel().getSelectedItem());
+        ScriptModel.setScriptModelSelected((ScriptModel) tableViewOrganisme.getSelectionModel().getSelectedItem());
         // sélection du fichier à importer
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(borderPane.getScene().getWindow());
         if(file != null) {
             // LECTURE DU FICHIER
-            OrganismeModel currentModel = OrganismeModel.getOrganismeModelSelected();
-            // Appel de la méthode parse du parser JAR
-            List<TransactionModel> listTransaction  = HelperLoadParser.getInstance().parse(currentModel.getNameParser(),file);
-            if(listTransaction != null){
+            ScriptModel currentModel = ScriptModel.getScriptModelSelected();
+            // Appel de la méthode parse du script
+            try {
+                List<TransactionModel> listTransaction = HelperScript.getInstance().parse(currentModel,file);
                 for(TransactionModel transactionModel : listTransaction){
-                    System.out.println(transactionModel.getCompte());
-                    System.out.println(transactionModel.getLocalDateTime().toString());
+                    System.out.println(transactionModel);
                 }
+            } catch (ScriptException e) {
+                HelperAlert.getInstance().showError(e.getLocalizedMessage());
+            } catch (NoSuchMethodException e) {
+                HelperAlert.getInstance().showError(e.getLocalizedMessage());
             }
-
         }
         else
             HelperAlert.getInstance().showError("Fichier inconnu");
 
-        try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("./AnchorPaneImport.fxml"));
-        backnode = borderPane.getCenter();
-        borderPane.setCenter(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        // fermeture de la fenetre
+        borderPane.getScene().getWindow().hide();
     }
 
     @FXML
@@ -110,29 +109,14 @@ public class ImportFilesController  implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tableColumNameOrganisme.setCellValueFactory(new PropertyValueFactory<OrganismeModel,String>("name"));
-        tableColumComment.setCellValueFactory(new PropertyValueFactory<OrganismeModel,String>("comment"));
+        tableColumNameOrganisme.setCellValueFactory(new PropertyValueFactory<ScriptModel,String>("organismeName"));
+        tableColumComment.setCellValueFactory(new PropertyValueFactory<ScriptModel,String>("organismeComment"));
 
-
-            // selection de la liste des organismes
-          String[] listParser = HelperLoadParser.getInstance().getListParser();
-          List<OrganismeModel> listOrganisme = new ArrayList<>();
-          for(String parser : listParser){
-
-              // pour chaque parser trouvé, on appel la methode getNameOrganisme
-              String nameOrganisme = HelperLoadParser.getInstance().getNameOrganisme(parser);
-              String nameOrganismeComment = HelperLoadParser.getInstance().getNameOrganismeComment(parser);
-
-              OrganismeModel organismeModel = new OrganismeModel();
-              organismeModel.setNameParser(parser); // ajout du nom du parser JAR
-              organismeModel.setName(nameOrganisme);
-              organismeModel.setComment(nameOrganismeComment);
-              listOrganisme.add(organismeModel);
-          }
-
+        // reception de la liste des scripts
+        List<ScriptModel> list =  HelperScript.getInstance().getListScript();
 
             // appel de la vue avec la liste
-            this.getTableViewOrganisme().setItems(FXCollections.observableArrayList(listOrganisme));
+         this.getTableViewOrganisme().setItems(FXCollections.observableArrayList(list));
 
     }
 }

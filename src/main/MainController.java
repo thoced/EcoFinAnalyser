@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import newDossier.DossierModel;
 import org.apache.tools.ant.taskdefs.SQLExec;
 import sample.HelperAlert;
 import sample.HelperStage;
@@ -99,9 +100,9 @@ public class MainController implements Initializable{
         if(engine == null)
             System.out.println("engine inconnu");
 
-        // chargement du script
+        // chargement du axa
         String dir = System.getProperty("user.dir");
-        String path = dir + "/" + "script.groovy";
+        String path = dir + "/" + "axaoovy";
 
         File file = new File(path);
 
@@ -124,7 +125,7 @@ public class MainController implements Initializable{
             // appel du fichier de selection
             FileChooser fileChooser = new FileChooser();
             File fileParser = fileChooser.showOpenDialog(borderPane.getScene().getWindow());
-            // evaluation du script
+            // evaluation du axa
             engine.eval(script);
 
             if(engine  instanceof Invocable){
@@ -142,7 +143,7 @@ public class MainController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        menuItemImportFile.disableProperty().bindBidirectional(DossierModel.isCurrentDossierSelectedProperty());
     }
 
     public Label getLabelCurrentDossier() {

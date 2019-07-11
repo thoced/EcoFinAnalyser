@@ -42,6 +42,7 @@ public class NewDossierController {
 
             // ajout du model
             model.Insert();
+            DossierModel.setCurrentDossier(model);
 
             HelperAlert.getInstance().showMessage("Nouveau dossier ajouté avec succes !");
 

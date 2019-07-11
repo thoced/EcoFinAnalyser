@@ -21,18 +21,24 @@ public class DossierModel implements Model {
 
     private static StringProperty nameCurrentDossier = new SimpleStringProperty();
 
+    private static BooleanProperty isCurrentDossierSelected = new SimpleBooleanProperty(true);
+
     public DossierModel() {
+        isCurrentDossierSelected.setValue(true);
     }
 
 
     public DossierModel(String name) throws ToLongStringException {
         setName(name);
+        isCurrentDossierSelected.setValue(true);
     }
 
     public static void setCurrentDossier(DossierModel currentDossier) {
         DossierModel.currentDossier = currentDossier;
-        if(currentDossier != null)
+        if(currentDossier != null) {
             nameCurrentDossier.set(currentDossier.getName());
+            isCurrentDossierSelected.setValue(false);
+        }
     }
 
     public static DossierModel getCurrentDossier() {
@@ -67,6 +73,18 @@ public class DossierModel implements Model {
         if(name.length() > 32)
             throw new ToLongStringException("Nom de dossier trop grand (veuillez inscrire un nom de 32 caractères maximum");
         this.name.set(name);
+    }
+
+    public static boolean isIsCurrentDossierSelected() {
+        return isCurrentDossierSelected.get();
+    }
+
+    public static BooleanProperty isCurrentDossierSelectedProperty() {
+        return isCurrentDossierSelected;
+    }
+
+    public static void setIsCurrentDossierSelected(boolean isCurrentDossierSelected) {
+        DossierModel.isCurrentDossierSelected.set(isCurrentDossierSelected);
     }
 
     @Override
